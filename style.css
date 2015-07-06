@@ -1,0 +1,59 @@
+@font-face{
+	font-family: Veranda_Exact;
+	src: url(fonts/Veranda_Exact.ttf);
+}
+
+@font-face{
+	font-family: bpg_glaho;
+	src: url(fonts/bpg_glaho.ttf);
+}
+body{
+	  background-color: #F9F9F9;
+}
+#person_name{
+	font-family: Veranda_Exact;
+}
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #1b809e;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+#exact{
+	background-color: #DD0E2D;
+	height: 70px;
+	border-color:#DD0E2D;
+	margin-bottom: 10px;
+}
+#whs{
+	height: 70px;
+	margin-bottom: 10px;
+}
+#allert_div{
+	text-decoration: none;
+	margin-top: 5px;
+	margin-bottom: 17px;
+	vertical-align: middle;
+}
+#allert_div p{
+	vertical-align: middle;
+}
+#allert_div h4 a{
+	text-decoration: none;
+	color:rgb(221, 14, 45);
+	font-weight: 800;
+	vertical-align: middle;
+	font-family: bpg_glaho;
+}	
+#menu_wrapper{
+	color: #1b809e;
+	font-family: bpg_glaho;
+	text-decoration: none;
+}
+#menu_wrapper a{
+	text-decoration: none;
+}
+#roles{
+	width: 1200px;
+}

@@ -1,0 +1,42 @@
+        $message = 'FROM:'. " " . $fname . " " . $lname .'</br>' .'Exact ID:'. $exact .'</br>'. 'Username:'. $username11 .'</br>'. 'გთხოვთ ჩამირთოთ შემდეგი უფლებები:'.'</br>'. $role;
+
+        // $query5  = "INSERT INTO rights (usr_id,role_names,datt) VALUES ('$exact','$roles','$datt')";
+        // $run5    = sqlsrv_query($conn,$query5);
+
+        require "phpmailer/class.phpmailer.php"; //include phpmailer class
+          
+        // Instantiate Class  
+        $mail = new PHPMailer();  
+          
+        // Set up SMTP  
+        $mail->IsSMTP();                // Sets up a SMTP connection  
+        $mail->SMTPAuth = true;         // Connection with the SMTP does require authorization    
+        $mail->SMTPSecure = "ssl";      // Connect using a TLS connection  
+        $mail->Host = "smtp.gmail.com";  //Gmail SMTP server address
+        $mail->Port = 465;  //Gmail SMTP port
+        $mail->Encoding = '7bit';
+        $mail->CharSet = "UTF-8";
+        
+        // Authentication  
+        $mail->Username   = "anadoluefesmailer@gmail.com"; // Your full Gmail address
+        $mail->Password   = "vaxopataraia"; // Your Gmail password
+           
+        // Composey
+        $mail->SetFrom($_POST['email']);
+        $mail->AddReplyTo($_POST['email']);
+        $mail->Subject = "User rights uptate!";      // Subject (which isn't required)  
+        $mail->MsgHTML($message);
+
+        $too = 'vakhtang.pataraia@ge.anadoluefes.com';
+        $cc  = $memail;
+        $me  = $email;
+        $dir = $dirMail;
+        // Send To  
+        $mail->AddAddress($too,$too ); // Where to send it - Recipient
+        $mail->AddAddress($me,$me );
+        $mail->AddCC($cc, $cc);
+        $mail->AddCC($dir, $dir);
+
+        $result = $mail->Send();    // Send!  
+        $message = $result ? 'წარმატებით გაიგზავნა!' : 'გაგზავნა ვერ მოხერხდა!';      
+        unset($mail);
