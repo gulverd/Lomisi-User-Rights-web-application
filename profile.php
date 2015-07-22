@@ -29,7 +29,7 @@
 		<?php include 'alert.php';?>
 	<div class="col-md-12">
 		<?php
-			$query3 = "SELECT * FROM UsersForRights WHERE usr_id = '$person'";
+			$query3 = "SELECT * FROM UsersForRights WHERE res_id = '$person'";
 				$run3   = sqlsrv_query($conn,$query3);
 
 				while($row3 = sqlsrv_fetch_array($run3)){
@@ -64,10 +64,6 @@
 				    <input type="email" class="form-control" id="exampleInputEmail1" name="email" value="<?php echo $email1?>" placeholder="giorgi.maisuradze@ge.anadoluefes.com">
 				</div>
 				<div class="form-group">
-				    <label for="exampleInputEmail1">დამავტროიზებელი პირის Email</label>
-				    <input type="email" class="form-control" id="exampleInputEmail1" name="memail" value="<?php echo $direc?>" placeholder="giorgi.mshvildadze@ge.anadoluefes.com">
-				</div>
-				<div class="form-group">
 				    <label for="exampleInputEmail1">აირჩიეთ თქვენი დეპარტამენტი</label>
 				    <select class="form-control" name="department">	
 					    <?php
@@ -89,7 +85,7 @@
 		</form>
 	</div>
 	<div class="col-md-12">
-		<a href="<?php echo 'pass.php?'.$person?>">პაროლის შეცვლა</a>
+		<a href="<?php echo 'pass.php?'.$person.generateRandomString();?>">პაროლის შეცვლა</a>
 	</div>	
 </div>
 </body>
@@ -99,12 +95,11 @@
 <?php
 
 	if(isset($_POST['submit'])){
-		 $firstName = $_POST['fname'];
-		 $lastName  = $_POST['lname'];
-		 $emmail    = $_POST['email'];
-		 $mmeamil   = $_POST['memail'];
-		 $department  = $_POST['department'];
-
+		$firstName = $_POST['fname'];
+		$lastName  = $_POST['lname'];
+		$emmail    = $_POST['email'];
+		//$mmeamil   = $_POST['memail'];
+		$department  = $_POST['department'];
 
 		$query6 = "SELECT * FROM DepartmentUser WHERE departName = '$department' ";
 		$run6   = sqlsrv_query($conn,$query6);
@@ -113,17 +108,12 @@
 			$depsName = $row6['departName'];
 			$depID    = $row6['id'];
 			$dirMail  = $row6['directorMail'];
-
 		}
 
-			echo $depID. " " . $depsName. " " . $dirMail;
-
-
-		 $query4    = "UPDATE UsersForRights SET email = '$emmail', fname = '$firstName', lname = '$lastName', auth ='$mmeamil',depId = '$depID' where usr_id = '$person'";
-		 $run4	   = sqlsrv_query($conn,$query4);
+		$query4   = "UPDATE UsersForRights SET email = '$emmail', fname = '$firstName', lname = '$lastName',depId = '$depID' where res_id = '$person'";
+		$run4	  = sqlsrv_query($conn,$query4);
 
 		echo "<script> 
 				window.alert('მონაცემები შეცვლილია!');
 		  	  </script>";	
-		
 	}  

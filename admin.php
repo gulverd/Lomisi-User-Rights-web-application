@@ -10,71 +10,51 @@
 <?php include 'db.php';?>
 </head>
 <body>
+<?php
+		$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; 
+    	$gela  = parse_url($url, PHP_URL_QUERY);
+		$person = substr($gela,0,8);
+		
+		function generateRandomString($length = 30) {
+			$characters = '0123456789';
+			$charactersLength = strlen($characters);
+			$randomString = '';
+			for ($i = 0; $i < $length; $i++) {
+				$randomString .= $characters[rand(0, $charactersLength - 1)];
+			}
+			return $randomString;
+		}
+?>
 <div class="container">
 	<div class="col-md-12">
-		<form action="" method="POST">
-			<div class="form-group">
-				<label for="exampleInputEmail1">ძებნა</label>
-				<input type="text" class="form-control" name="search" placeholder="მაგ: 10000100">
-			</div>	
-			<div class="form-group">
-				<input type="submit" value="დადასტურება" name="submit" class="btn btn-default">
+		<div class="col-md-12">
+			<div class="bs-callout bs-callout-info" id="callout-helper-bg-specificity">
+				   <h4 id="dealing-with-specificity"><b>მომხმარებლის უფლებების გვერდი</b><a class="anchorjs-link" href="#dealing-with-specificity"><span class="anchorjs-icon"></span></a></h4>
+				   <p>
+				    გთხოვთ აირჩიოთ სასურველი მოდული. 
+				   </p>
 			</div>
-		</form>
-	</div>
-</div>
-	<div class="col-md-12">
-			<?php
+		</div>
+		<?php include 'alert.php';?>
+			<?php 
+		/*		$query = "SELECT count(*) FROM ApRights where DirAuthStatus = '1' AND EndStatus = '0'";
+				$run   = sqlsrv_query($conn,$query);
 
-				if(isset($_POST['submit'])){
-					$ID = $_POST['search'];
+				while($row = sqlsrv_fetch_array($run)){
+					$count = $row[0];
+				};*/
 
-					$query = "SELECT * FROM ApRights WHERE usr_id = '$ID'";
-					$run   =  sqlsrv_query($conn,$query);
-
-								echo '		<table class="table">
-										<tr>
-											<td>UserId</td>
-											<td>Department</td>
-											<td id="roles">Roles</td>
-											<td>Status</td>
-											<td>Active Date</td>
-											<td>Inactive Date</td>
-										</tr>';
-					while($row = sqlsrv_fetch_array($run)){
-						$usr_id = $row['usr_id'];
-						$dep_id = $row['depID'];
-						$roles  = $row['role_name'];
-						$stat   = $row['statuss'];
-						$Adate  = $row['ActiveDate'];
-						$Idate  = $row['InavtiveDate'];
-			
-						echo '<tr>';
-							echo '<td>';
-								echo $usr_id;
-							echo '</td>';
-							echo '<td>';
-								echo $dep_id;
-							echo '</td>';
-							echo '<td id="roles">';
-								echo $roles;
-							echo '</td>';
-							echo '<td>';
-								echo $stat;
-							echo '</td>';
-							echo '<td>';
-								echo $Adate;
-							echo '</td>';
-							echo '<td>';
-								echo $Idate;
-							echo '</td>';
-						echo '</tr>';		
-
-					}
-				}
 			?>
-		</table>
-	</div>
+		<div class="col-md-12">
+			<a href="<?php echo 'rights.php?'.$person.generateRandomString();?>"><button type="button" class="btn btn-primary btn-lg btn-block" id="exact"><span class="glyphicon glyphicon-tasks"></span> უფლებები Exact-ში</button></a>
+			<a href="<?php echo 'whs.php?'.$person.generateRandomString();?>"><button type="button" class="btn btn-primary btn-lg btn-block" id="whs"><span class="glyphicon glyphicon-cog"></span> უფლებები საწყობებზე</button></a>
+			<a href="<?php echo 'auth.php?'.$person.generateRandomString();?>"><button type="button" class="btn btn-primary btn-lg btn-block" id="authi"><span class="glyphicon glyphicon-pencil"></span> ავტორიზაცია <?php //echo '('.$count.')';?></button></a>
+			<a href="<?php echo 'deps.php?'.$person.generateRandomString();?>"><button type="button" class="btn btn-danger btn-lg btn-block" id="deps"><span class="glyphicon glyphicon-tower"></span>  დეპარტამენტები</button></a>
+			<a href="<?php echo 'print.php?'.$person.generateRandomString();?>"><button type="button" class="btn btn-danger btn-lg btn-block" id="prnt"><span class="glyphicon glyphicon-print"></span>  უფლებების ფაილის დაბეჭვდა</button></a>
+			<a href="<?php echo 'profile.php?'.$person.generateRandomString();?>"><button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-user"></span> პირადი ინფორმაცია</button></a>
+		</div>	
+	</div>		
+</div>
 </body>
 </html>
 

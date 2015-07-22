@@ -59,6 +59,9 @@
 		$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; 
     	$gela  = parse_url($url, PHP_URL_QUERY);
 		$person = substr($gela,0,8);
+		date_default_timezone_set("Asia/Tbilisi");
+		$datz       = date("Y-m-d");
+		$maxDate    = '2020-12-31';
 		//echo $person;
 
 ?>
@@ -74,17 +77,18 @@
 		</div>
 			<?php include 'menu.php';?>
 			<?php include 'alert.php';?>
+	
 		<div class="col-md-12">
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<h4><b>არსებული უფლებები</b></h4>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-5">
 					<h4><b>სხვა უფლებები</b></h4>
 				</div>
 				<div class="col-md-4">
-					<h4><b>პირადი ინფორმაცია</b></h4>
+					<h4><b>Personal Information</b></h4>
 				</div>
-			<div class="col-md-4">
+			<div class="col-md-3">
 					<table class="table">
 						<tr>
 							<td><i>უფლების დასახელება</i></td>
@@ -104,6 +108,7 @@
 									$role_id     = $row1[2];
 									$role_name   = $row1[3];
 
+
 									echo '<tr>';
 									echo '<td>'.$role_name.'</td>';
 									echo '</tr>';
@@ -112,7 +117,7 @@
 							?>
 					</table>
 			</div>	
-			<div class="col-md-4">
+			<div class="col-md-5">
 				  <form action="" method="POST">
 					<table class="table">
 						<tr>
@@ -135,29 +140,30 @@
 						while      ($row2 = sqlsrv_fetch_array($run2)){
 										$role_name_2 = $row2[0];
 										$role_id_2   = $row2[1];
-
+										
 										echo '<tr>';
-										echo '<td>'.'<input type="checkbox" name="checkboxvar[]" value="'; echo $role_name_2; echo '">'.'</td>';
+										echo '<td>'.'<input type="checkbox" name="checkboxvar[]" value="'; echo $role_id_2; echo '">'.'</td>';
 										echo '<td>'.$role_name_2.'</td>';
 										echo '</tr>';
 									}
 					?>
 				</table>
+	
 			</div>
 			<div class="col-md-4">
-
+			<div class="col-md-12" id="bgogo">
 			<?php
-				$query3 = "SELECT * FROM UsersForRights WHERE usr_id = '$person'";
+				$query3 = "SELECT * FROM UsersForRights WHERE res_id = '$person'";
 				$run3   = sqlsrv_query($conn,$query3);
 
 				while($row3 = sqlsrv_fetch_array($run3)){
 					$id     =  $row3[1];
 					$usname =  $row3[2];
-					$email1  =  $row3[3];
-					$fname1  =  $row3[6];
-					$lname1  =  $row3[7];
+					$email1 =  $row3[3];
+					$fname1 =  $row3[6];
+					$lname1 =  $row3[7];
 					$direc  =  $row3[8];
-					$depID  = $row3['depId'];
+					$depID  =  $row3['depId'];
 
 
 					$query6 = "SELECT * FROM DepartmentUser WHERE id = '$depID'";
@@ -179,38 +185,54 @@
 				    <input type="text" class="form-control" id="exampleInputEmail1" name="uname" value="<?php echo $usname?>" placeholder="მაგ: G.MAISURADZE" readonly>
 				 </div>				 
 				<div class="form-group">
-				    <label for="exampleInputEmail1">სახელი</label>
+				    <label for="exampleInputEmail1">First Name</label>
 				    <input type="text" class="form-control" id="exampleInputEmail1"  name="fname" value="<?php echo $fname1?>" placeholder="მაგ: გიორგი" readonly>
 				 </div>
 				<div class="form-group">
-				    <label for="exampleInputEmail1">გვარი</label>
+				    <label for="exampleInputEmail1">Last Name</label>
 				    <input type="text" class="form-control" id="exampleInputEmail1" name="lname" value="<?php echo $lname1?>" placeholder="მაგ: მაისურაძე" readonly>
 				 </div>
 				<div class="form-group">
-				    <label for="exampleInputEmail1">თქვენი Email</label>
+				    <label for="exampleInputEmail1">Your Email</label>
 				    <input type="email" class="form-control" id="exampleInputEmail1" name="email" value="<?php echo $email1?>" placeholder="giorgi.maisuradze@ge.anadoluefes.com" readonly>
 				 </div>
 				<div class="form-group">
-				    <label for="exampleInputEmail1">დამაავტორიზებელი პირის Email</label>
-				    <input type="email" class="form-control" id="exampleInputEmail1" name="memail" value="<?php echo $direc?>" placeholder="giorgi.mshvildadze@ge.anadoluefes.com" readonly>
-				 </div>
-				<div class="form-group">
-				    <label for="exampleInputEmail1">დეპარტამენტი</label>
+				    <label for="exampleInputEmail1">Department</label>
 				    <input type="text" class="form-control" id="exampleInputEmail1" name="depName" value="<?php echo $depName?>" placeholder="finance" readonly>
 				</div>	
 				<div class="form-group">
-				    <label for="exampleInputEmail1">თქვენი დეპარტამენტი დირექტორის Email</label>
+				    <label for="exampleInputEmail1">Department Director Email</label>
 				    <input type="email" class="form-control" id="exampleInputEmail1" name="dirMail" value="<?php echo $directorMail;?>" placeholder="" readonly>
 				 </div>				 
 				<?php
 					}
 				?>
 				  <div class="form-group">
-					<input type="submit" value="დადასტურება" name="submit" class="btn btn-default">
+					<input type="submit" value="Submit" name="submit" class="btn btn-default" id="submit1">
 				  </div>	
-				</form>
+					
 			</div>
-	</div>
+				<div class="col-md-12">
+					<h4><b>Temporary Rights Form</b></h4>
+				</div>
+				<div class="col-md-12" id="bgogo">
+				
+ 					<div class="form-group">
+				    	<label for="exampleInputEmail1"><span class="glyphicon glyphicon-th-large"></span> Name Of Right</label>
+						<input type="text" class="form-control" name="tempName" placeholder="Please entry name of ''Right'' ">
+					</div>
+					<div class="form-group">
+				    	<label for="exampleInputEmail1"><span class="glyphicon glyphicon-calendar"></span> Date To</label>	
+						<input type="date" name="DateTo"  class="form-control" min="<?php echo $datz;?>" max="<?php echo $maxDate;?>" value="<?php echo $datz;?>">
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Submit" name="submit2" class="btn btn-success" id="submit2">
+					</div>
+				</form>
+				</div>
+		
+			</div>
+		</div>
 </div>
 </body>
 </html>
@@ -219,17 +241,22 @@
 <?php
 	date_default_timezone_set("Asia/Tbilisi");
 
+
+
 	if (isset($_POST['submit'])){
 		$exact   	= $_POST['exactId'];
 		$username11 = $_POST['uname'];
 		$fname   	= $_POST['fname'];
 		$lname   	= $_POST['lname'];
 		$email   	= $_POST['email'];
-		$memail  	= $_POST['memail'];
+		//$memail  	= $_POST['memail'];
 		$dirMail    = $_POST['dirMail'];
-		$role    	= implode('</br>', $_POST['checkboxvar']);
-		$roles    	= trim(implode(',', $_POST['checkboxvar']));
+		$role    	= $_POST['checkboxvar'];
+
 		$datt       = date("F j, Y, g:i a");
+
+
+		
 
 		$query11 = "SELECT pwruc.res_id as person_id, dbo.BSC_Fonts_Convertor_ExattToUnicode(ltrim(humres.fullname)) as name, pwrole.role_id ,rtrim(pwrole.role_name) as descr 
 					FROM pwruc											
@@ -238,20 +265,23 @@
 					WHERE pwruc.res_id = $person";
 		$run11   =  sqlsrv_query($conn,$query11);
 
-		while($row11 = sqlsrv_fetch_array($run11)){
-			$ar[] = $row11[3];
-		}	
-		$rollez = implode(',',array_merge($ar,$_POST['checkboxvar']));
+		foreach ($role as $value) {
 
-		$query8     = "UPDATE ApRights SET statuss = 'I',InavtiveDate = '$datt' WHERE usr_id = '$exact' AND statuss = 'A'";
-		$run8       = sqlsrv_query($conn,$query8);
+			echo $value;
 
-		$query7     = "INSERT INTO ApRights (usr_id,depID,role_name,statuss,ActiveDate,InavtiveDate) VALUES ('$exact','$depidd','$rollez','A','$datt','N/A')";
-		$run7       = sqlsrv_query($conn,$query7);
+		
+			$query7     = "INSERT INTO ApRights (res_id,depID,role_id,Request_date,statuss,DateTo,DirAuthStatus,DirAuthResID,Authorized_date,ITAuthStatus,ITAuthResID,Rejected,EndStatus,ActiveDate,InactiveDate) VALUES ('$exact','$depidd','$value','$datt','A','$maxDate','0','N/A','N/A','0','N/A','0','0','N/A','N/A')";
+			$run7       = sqlsrv_query($conn,$query7);
 
 
-		$message = 'FROM:'. " " . $fname . " " . $lname .'</br>' .'Exact ID:'. $exact .'</br>'. 'Username:'. $username11 .'</br>'. 'გთხოვთ ჩამირთოთ შემდეგი უფლებები:'.'</br>'. $role;
+		}
 
+
+		$message = 'FROM:'. " " . $fname . " " . $lname .'</br>' .'Exact ID:'. $exact .'</br>'. 'Username:'. $username11 .'</br>'. 'გთხოვთ ჩამირთოთ შემდეგი უფლებები:'.'</br>'. implode('</br>',$role);
+		//echo $message;
+
+
+/*
    		require "phpmailer/class.phpmailer.php"; //include phpmailer class
           
         // Instantiate Class  
@@ -277,13 +307,13 @@
         $mail->MsgHTML($message);
 
         $too = 'vakhtang.pataraia@ge.anadoluefes.com';
-        $cc  = $memail;
+        //$cc  = $memail;
         $me  = $email;
         $dir = $dirMail;
         // Send To  
         $mail->AddAddress($too,$too ); // Where to send it - Recipient
         $mail->AddAddress($me,$me );
-        $mail->AddCC($cc, $cc);
+      	//$mail->AddCC($cc, $cc);
  		$mail->AddCC($dir, $dir);
 
         $result = $mail->Send();    // Send!  
@@ -299,6 +329,35 @@
        			window.alert('შეტყობინების გაიგზავნა ვერ მოხერხდა!');
 		 		window.location.assign('index.php')
 		  	  </script>";
-       	}
+       	}*/
     }
+
+
+
+		if(isset($_POST['submit2'])){
+			$exact   	= $_POST['exactId'];
+			$username11 = $_POST['uname'];
+			$fname   	= $_POST['fname'];
+			$lname   	= $_POST['lname'];
+			$email   	= $_POST['email'];
+			//$memail  	= $_POST['memail'];
+			$dirMail    = $_POST['dirMail'];
+
+			$datt       = date("F j, Y, g:i a");
+			$tempName   = $_POST['tempName'];
+			$DateTo     = $_POST['DateTo'];
+
+			$query122   = "SELECT * FROM pwrole where role_name = '$tempName'";
+			$run122     =  sqlsrv_query($conn,$query122);
+
+			while($row122 = sqlsrv_fetch_array($run122)){
+				$rollleID = $row122['role_id'];
+				echo $rollleID;
+				$query123   = "INSERT INTO ApRights (res_id,depID,role_id,Request_date,statuss,DateTo,DirAuthStatus,DirAuthResID,Authorized_date,ITAuthStatus,ITAuthResID,Rejected,EndStatus,ActiveDate,InactiveDate) 
+							   VALUES ('$exact','$depidd','$rollleID','$datt','A','$DateTo','0','N/A','N/A','0','N/A','0','0','N/A','N/A')";
+				$run123     = sqlsrv_query($conn,$query123);
+			}   
+
+	
+		}
     ?>

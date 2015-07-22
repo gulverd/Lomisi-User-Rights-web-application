@@ -41,15 +41,18 @@
 <?php
 
 	if(isset($_POST['submit'])){
+		
+
 		$usr_id   = $_POST['username'];
 		$password = $_POST['password'];
 
-		$query  = "SELECT * FROM UsersForRights WHERE (usr_id = '$usr_id' or usr_name = '$usr_id') AND password1 = '$password' ";
-		$result = sqlsrv_query($conn,$query);
-
+		
+		
 		if(empty($usr_id) or empty($password)){
 			echo "შეიყვანეთ მონაცემები!";
 		}else{
+			$query  = "SELECT * FROM UsersForRights WHERE (res_id = '$usr_id' or usr_name = '$usr_id') AND password1 = '$password'";
+			$result = sqlsrv_query($conn,$query);
 			while($row = sqlsrv_fetch_array($result)){
 				$user_id   = $row[1];
 				$user_name = $row[2];
@@ -57,7 +60,17 @@
 				$pass      = $row[4];
 
 				session_start();
-				header('location:main.php?'.$user_id.'488562508999124001236');
+
+				function generateRandomString($length = 30) {
+				  	$characters = '0123456789';
+				  	$charactersLength = strlen($characters);
+				  	$randomString = '';
+				  	for ($i = 0; $i < $length; $i++) {
+				      	$randomString .= $characters[rand(0, $charactersLength - 1)];
+				  	}
+				  	return $randomString;
+				}
+				header('location:hdrtmp.php?'.$user_id.generateRandomString());
 			}
 		}
 	

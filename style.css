@@ -4,8 +4,22 @@
 }
 
 @font-face{
-	font-family: bpg_glaho;
-	src: url(fonts/bpg_glaho.ttf);
+	font-family: bpg_mrgvlovani_caps_2010;
+	src: url(fonts/bpg_mrgvlovani_caps_2010.ttf);
+}
+
+#bgogo{
+	border:1px solid gray;
+	padding: 10px;
+	border-radius: 5px;
+}
+#submit1{
+	width: 100%;
+  	height: 4%;
+}
+#submit2{
+	width: 100%;
+  	height: 4%;
 }
 body{
 	  background-color: #F9F9F9;
@@ -20,15 +34,45 @@ body{
   border-left-width: 5px;
   border-radius: 3px;
 }
+#prsnl{
+	font-family: bpg_mrgvlovani_caps_2010;
+}
+#table_cent_tr_header{
+	text-align: center;
+	font-weight: 700;
+	vertical-align: middle;
+}
+#del{
+	color:rgb(190, 34, 34);
+}
+#ok{
+	color:green;
+}
+#info{
+	color:red;
+}
+#cent_td{
+	text-align: center;
+	vertical-align: middle;
+}
 #exact{
 	background-color: #DD0E2D;
 	height: 70px;
 	border-color:#DD0E2D;
 	margin-bottom: 10px;
+	font-family: bpg_mrgvlovani_caps_2010;
+}
+#authi{
+	background-color: #64A538;
+	height: 70px;
+	border-color:#64A538;
+	margin-bottom: 10px;
+	font-family: bpg_mrgvlovani_caps_2010;
 }
 #whs{
 	height: 70px;
 	margin-bottom: 10px;
+	font-family: bpg_mrgvlovani_caps_2010;
 }
 #allert_div{
 	text-decoration: none;
@@ -44,11 +88,11 @@ body{
 	color:rgb(221, 14, 45);
 	font-weight: 800;
 	vertical-align: middle;
-	font-family: bpg_glaho;
+	font-family: bpg_mrgvlovani_caps_2010;
 }	
 #menu_wrapper{
 	color: #1b809e;
-	font-family: bpg_glaho;
+	font-family: bpg_mrgvlovani_caps_2010;
 	text-decoration: none;
 }
 #menu_wrapper a{
@@ -56,4 +100,27 @@ body{
 }
 #roles{
 	width: 1200px;
+}
+#deps{
+	background-color: #E58E11;
+	border-color: #E58E11;
+	height: 70px;
+	margin-bottom: 10px;
+	font-family: bpg_mrgvlovani_caps_2010;
+}
+#prnt{
+	background-color: #38AE86;
+	border-color: #38AE86;
+	height: 70px;
+	margin-bottom: 10px;
+	font-family: bpg_mrgvlovani_caps_2010;	
+}
+#nwdpa{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-family: bpg_mrgvlovani_caps_2010;
+}
+#nwdpa a{
+	color:rgb(195, 10, 10);
+	text-decoration: underline;
 }

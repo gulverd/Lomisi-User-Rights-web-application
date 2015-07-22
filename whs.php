@@ -59,6 +59,9 @@
 		$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; 
     	$gela  = parse_url($url, PHP_URL_QUERY);
 		$person = substr($gela,0,8);
+				date_default_timezone_set("Asia/Tbilisi");
+		$datz       = date("Y-m-d");
+		$maxDate    = '2020-12-31';
 		//echo $person;
 ?>
 <div class="col-md-12">
@@ -81,13 +84,13 @@
 					<h4><b>სხვა უფლებები</b></h4>
 				</div>
 				<div class="col-md-4">
-					<h4><b>პირადი ინფორმაცია</b></h4>
+					<h4><b>Personal Information</b></h4>
 				</div>
 			<div class="col-md-4">
 					<table class="table">
 						<tr>
 							<td><span class="glyphicon glyphicon-qrcode"></span></td>
-							<td><i>საწყობის დასახელება</i></td>
+							<td><i>Warehouse Name</i></td>
 						</tr>
 							<?php
 
@@ -116,7 +119,7 @@
 						<tr>
 							<td><span class="glyphicon glyphicon-ok"></span></td>
 							<td><span class="glyphicon glyphicon-qrcode"></span></td>
-							<td><i>საწყობის დასახელება</i></td>
+							<td><i>Warehouse Name</i></td>
 						</tr>			
 					<?php
 						$query2   ="SELECT distinct magaz.magcode, magaz.naam
@@ -145,9 +148,9 @@
 				</table>
 			</div>
 			<div class="col-md-4">
-
+			<div class="col-md-12" id="bgogo">
 			<?php
-				$query3 = "SELECT * FROM UsersForRights WHERE usr_id = '$person'";
+				$query3 = "SELECT * FROM UsersForRights WHERE res_id = '$person'";
 				$run3   = sqlsrv_query($conn,$query3);
 
 				while($row3 = sqlsrv_fetch_array($run3)){
@@ -193,24 +196,39 @@
 				    <input type="email" class="form-control" id="exampleInputEmail1" name="email" value="<?php echo $email1?>" placeholder="giorgi.maisuradze@ge.anadoluefes.com" readonly>
 				 </div>
 				<div class="form-group">
-				    <label for="exampleInputEmail1">დამაავტორიზებელი პირის Email</label>
-				    <input type="email" class="form-control" id="exampleInputEmail1" name="memail" value="<?php echo $direc?>" placeholder="giorgi.mshvildadze@ge.anadoluefes.com" readonly>
-				 </div>
-				<div class="form-group">
 				    <label for="exampleInputEmail1">დეპარტამენტი</label>
 				    <input type="text" class="form-control" id="exampleInputEmail1" name="depName" value="<?php echo $depName?>" placeholder="finance" readonly>
 				</div>	
 				<div class="form-group">
-				    <label for="exampleInputEmail1">თქვენი დეპარტამენტი დირექტორის Email</label>
+				    <label for="exampleInputEmail1">თქვენი დეპარტამენტის დირექტორის Email</label>
 				    <input type="email" class="form-control" id="exampleInputEmail1" name="dirMail" value="<?php echo $directorMail;?>" placeholder="" readonly>
 				 </div>			
 				<?php
 					}
 				?>
 				  <div class="form-group">
-					<input type="submit" value="დადასტურება" name="submit" class="btn btn-default">
+					<input type="submit" value="Submit" name="submit" class="btn btn-default" id="submit1">
 				  </div>	
+				
+			</div>
+			
+			<div class="col-md-12">
+					<h4><b>Temporary Rights Form</b></h4>
+				</div>
+				<div class="col-md-12" id="bgogo">	
+ 					<div class="form-group">
+				    	<label for="exampleInputEmail1"><span class="glyphicon glyphicon-th-large"></span> Number Of Warehouse</label>
+						<input type="text" class="form-control" name="tempName" placeholder="Please entry number of warehouse ">
+					</div>
+					<div class="form-group">
+				    	<label for="exampleInputEmail1"><span class="glyphicon glyphicon-calendar"></span> Date To</label>	
+						<input type="date" name="DateTo"  class="form-control" min="<?php echo $datz;?>" max="<?php echo $maxDate;?>" value="<?php echo $datz;?>">
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Submit" name="submit2" class="btn btn-success" id="submit2">
+					</div>
 				</form>
+				</div>
 			</div>
 	</div>
 </div>
@@ -227,13 +245,25 @@
 		$fname   	= $_POST['fname'];
 		$lname   	= $_POST['lname'];
 		$email   	= $_POST['email'];
-		$memail  	= $_POST['memail'];
+		//$memail  	= $_POST['memail'];
 		$dirMail    = $_POST['dirMail'];
-		$role    	= implode('</br>', $_POST['checkboxvar']);
-		$roles    	= trim(implode(',', $_POST['checkboxvar']));
+		$role    	= $_POST['checkboxvar'];
+	//	$roles    	= trim(implode(',', $_POST['checkboxvar']));
 		$datt       = date("F j, Y, g:i a");
 
-        $message = 'FROM:'. " " . $fname . " " . $lname .'</br>' .'Exact ID:'. $exact .'</br>'. 'Username:'. $username11 .'</br>'. 'გთხოვთ ჩამირთოთ შემდეგ საწყობებზე უფლებები:'.'</br>'. $role;
+		foreach ($role as $value) {
+
+
+			/*$query8     = "UPDATE ApRights SET statuss = 'I',InavtiveDate = '$datt' WHERE res_id = '$exact' AND statuss = 'A'";
+			$run8       = sqlsrv_query($conn,$query8);
+*/
+			$query7     = "INSERT INTO ApWhs (res_id,depID,role_id,Request_date,statuss,DateTo,DirAuthStatus,DirAuthResID,Authorized_date,ITAuthStatus,ITAuthResID,Rejected,EndStatus,ActiveDate,InactiveDate) VALUES ('$exact','$depidd','$value','$datt','A','$maxDate','0','N/A','N/A','0','N/A','0','0','N/A','N/A')";
+			$run7       = sqlsrv_query($conn,$query7);
+			 //echo $value;
+
+		}
+
+        $message = 'FROM:'. " " . $fname . " " . $lname .'</br>' .'Exact ID:'. $exact .'</br>'. 'Username:'. $username11 .'</br>'. 'გთხოვთ ჩამირთოთ შემდეგ საწყობებზე უფლებები:'.'</br>'. implode('</br>',$role);
 
 		$query11 = "SELECT pwmagaz.magcode, magaz.naam
 					FROM pwmagaz 
@@ -242,19 +272,7 @@
 
 		$run11   =  sqlsrv_query($conn,$query11);
 
-		while($row11 = sqlsrv_fetch_array($run11)){
-			$ar[] = $row11[0];
-		}	
-
-		$rollez = implode(',',array_merge($ar,$_POST['checkboxvar']));
-
-		$query8     = "UPDATE ApWhs SET statuss = 'I',InavtiveDate = '$datt' WHERE usr_id = '$exact' AND statuss = 'A'";
-		$run8       = sqlsrv_query($conn,$query8);
-
-		$query7     = "INSERT INTO ApWhs (usr_id,depID,role_name,statuss,ActiveDate,InavtiveDate) VALUES ('$exact','$depidd','$rollez','A','$datt','N/A')";
-		$run7       = sqlsrv_query($conn,$query7);
-
-		require "phpmailer/class.phpmailer.php"; //include phpmailer class
+/*		require "phpmailer/class.phpmailer.php"; //include phpmailer class
           
         // Instantiate Class  
         $mail = new PHPMailer();  
@@ -279,13 +297,13 @@
         $mail->MsgHTML($message);
 
         $too = 'vakhtang.pataraia@ge.anadoluefes.com';
-        $cc  = $memail;
+       // $cc  = $memail;
         $me  = $email;
         $dir = $dirMail;
         // Send To  
         $mail->AddAddress($too,$too ); // Where to send it - Recipient
         $mail->AddAddress($me,$me );
-        $mail->AddCC($cc, $cc);
+        //$mail->AddCC($cc, $cc);
  		$mail->AddCC($dir, $dir);
 
         $result = $mail->Send();    // Send!  
@@ -301,8 +319,48 @@
        			window.alert('შეტყობინების გაიგზავნა ვერ მოხერხდა!');
 		 		window.location.assign('index.php')
 		  	  </script>";
-       	}
+       	}*/
 
     }
+
+   		if(isset($_POST['submit2'])){
+			$exact   	= $_POST['exactId'];
+			$username11 = $_POST['uname'];
+			$fname   	= $_POST['fname'];
+			$lname   	= $_POST['lname'];
+			$email   	= $_POST['email'];
+			$dirMail    = $_POST['dirMail'];
+
+			$datt       = date("F j, Y, g:i a");
+			$tempName   = $_POST['tempName'];
+			$DateTo     = $_POST['DateTo'];
+
+			$query444   = "SELECT distinct magaz.magcode, magaz.naam
+							FROM magaz
+							JOIN pwmagaz ON magaz.magcode = pwmagaz.magcode
+							WHERE pwmagaz.res_id != '$person'
+							EXCEPT
+							SELECT distinct magaz.magcode, magaz.naam
+							FROM magaz
+							JOIN pwmagaz ON magaz.magcode = pwmagaz.magcode
+							WHERE pwmagaz.res_id = '$person'";
+			$run444     =  sqlsrv_query($conn,$query444);
+
+			while($row444 = sqlsrv_fetch_array($run444)){
+				$checker  = $row444['magcode'];
+
+				if(strcmp($tempName ,trim($checker)) == 0){
+					$query123   = "INSERT INTO ApWhs (res_id,depID,role_id,Request_date,statuss,DateTo,DirAuthStatus,DirAuthResID,Authorized_date,ITAuthStatus,ITAuthResID,Rejected,EndStatus,ActiveDate,InactiveDate) 
+									VALUES ('$exact','$depidd','$tempName','$datt','A','$DateTo','0','N/A','N/A','0','N/A','0','0','N/A','N/A')";
+					$run123     = sqlsrv_query($conn,$query123);
+
+				}else{
+					echo "<script>
+							window.alert('".$tempName." Is already Exsists or it is incorrect!.');
+						</script>";
+					header( "refresh:0;" );
+				}
+			}			
+		}
     ?>
 

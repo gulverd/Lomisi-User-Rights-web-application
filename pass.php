@@ -30,7 +30,7 @@
 			<?php include 'alert.php';?>
 	<div class="col-md-12">
 		<?php
-			$query = "SELECT * FROM UsersForRights WHERE usr_id = '$person'";
+			$query = "SELECT * FROM UsersForRights WHERE res_id = '$person'";
 			$run   = sqlsrv_query($conn,$query);
 
 			while($row = sqlsrv_fetch_array($run)){
@@ -67,7 +67,7 @@
 		$oldd_pass = $_POST['old_pass'];
 
 		if($oldd_pass == $old_pass AND $password1 == $password2 AND $password1 != 1324 AND $password2 != 1324){
-			$query2 = "UPDATE UsersForRights SET password1 = '$password1', password2 = '$password2' WHERE usr_id = '$person'";
+			$query2 = "UPDATE UsersForRights SET password1 = '$password1', password2 = '$password2' WHERE res_id = '$person'";
 			$run2   = sqlsrv_query($conn,$query2);
 			echo "<script> 
 				window.alert('პაროლი შეცვლილია!');
